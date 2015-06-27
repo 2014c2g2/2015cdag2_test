@@ -115,7 +115,7 @@ class Hello(object):
 
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
-    def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,M=10, P=20):
+    def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,N6=15,N7=24,M=10, P=20):
         outstring = '''
     <!DOCTYPE html> 
     <html>
@@ -178,7 +178,23 @@ class Hello(object):
             outstring+=''' <option value="'''+str(j)+'''">'''+str(j)+'''</option>'''
         outstring+='''
        </select><br/>
-
+    第7齒數:<br />
+        <select name="N6">
+        '''
+        for j in range(15,81):
+            outstring+=''' <option value="'''+str(j)+'''">'''+str(j)+'''</option>'''
+        outstring+='''
+       </select><br/>
+    第8齒數:<br />
+        <select name="N7">
+        '''
+        j=24
+        outstring +=''' <option value = '''+str(j)+'''>'''+str(j)+'''</option>'''
+        
+        for j in range(15,81):
+            outstring+=''' <option value="'''+str(j)+'''">'''+str(j)+'''</option>'''
+        outstring+='''
+       </select><br/>
     模數  :<input type=text name=M value='''+str(M)+'''><br />
 
     壓力角:<input type=text name=P value = '''+str(P)+'''><br />
@@ -198,8 +214,11 @@ class Hello(object):
 
         return outstring
     @cherrypy.expose
+    def hello(self, toprint="Hello World!"):
+        return toprint
+    @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
-    def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,M=10, P=20):
+    def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,N6=15,N7=24,M=10, P=20):
         outstring =''' 
     <!DOCTYPE html> 
     <html>
@@ -258,6 +277,11 @@ class Hello(object):
     n_g5 ='''+str(N4)+'''
     # 第6齒輪齒數
     n_g6 ='''+str(N5)+'''
+    # 第7齒輪齒數
+    n_g7 ='''+str(N6)+'''
+    # 第8齒輪齒數
+    n_g8 ='''+str(N7)+'''
+        
         
     # 計算兩齒輪的節圓半徑
     rp_g1 = m*n_g1/2
@@ -266,6 +290,8 @@ class Hello(object):
     rp_g4 = m*n_g4/2
     rp_g5= m*n_g5/2
     rp_g6= m*n_g6/2
+    rp_g7= m*n_g7/2
+    rp_g8= m*n_g8/2
 
     # 繪圖第1齒輪的圓心座標
     x_g1 = 400
@@ -289,6 +315,14 @@ class Hello(object):
     # 第6齒輪的圓心座標
     x_g6 = x_g5
     y_g6 = y_g5 + rp_g5+rp_g6
+
+    # 第7齒輪的圓心座標
+    x_g7= x_g6+ rp_g6+rp_g7
+    y_g7 = y_g6
+
+    # 第8齒輪的圓心座標
+    x_g8 = x_g7
+    y_g8 = y_g7+ rp_g7+rp_g8
 
     # 將第1齒輪順時鐘轉 90 度
     # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
@@ -357,7 +391,8 @@ class Hello(object):
     # rotate to engage
 
     #-pi/2 +pi/n_g5  +(pi/2 -pi/n_g4+(-pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4)*(n_g4/n_g5)
-    ctx.rotate(-pi/2 +pi/n_g5  +(pi/2 -pi/n_g4+(pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4)*(n_g4/n_g5))
+
+    ctx.rotate(-pi/2 +pi/n_g5+(pi/2-pi/n_g4-(-pi/2+pi/n_g3)*n_g3/n_g4-(-pi/2+pi/n_g2)*n_g2/n_g4)*(n_g4/n_g5))
 
     # put it back
     ctx.translate(-x_g5, -y_g5)
@@ -375,6 +410,33 @@ class Hello(object):
     spur.Spur(ctx).Gear(x_g6, y_g6, rp_g6, n_g6, pa, "blue")
     ctx.restore()
 
+    #第7齒輪
+
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:06",x_g7, y_g7);
+
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g7, y_g7)
+    p=-pi/n_g6+(-pi/2+pi/n_g5)*n_g5/n_g6-(-pi/2+pi/n_g4)*n_g4/n_g6-(pi/2+pi/n_g3)*n_g3/n_g6-(-pi/2+pi/n_g2)*n_g2/n_g6
+    # rotate to engage
+    ctx.rotate(-pi/2+pi/n_g7+(pi/2+p)*(n_g6/n_g7))
+    # put it back
+    ctx.translate(-x_g7, -y_g7)
+    spur.Spur(ctx).Gear(x_g7, y_g7, rp_g7, n_g7, pa, "red")
+    ctx.restore()
+
+    #第8齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g8, y_g8)
+    # rotate to engage
+    ctx.rotate(-pi/n_g8+(-pi/2+pi/n_g7)*n_g7/n_g8-(pi/2+pi/n_g6)*n_g6/n_g8-(pi/2+pi/n_g5)*n_g5/n_g8-(pi/2+pi/n_g4)*n_g4/n_g8-(pi/2+pi/n_g3)*n_g3/n_g8-(pi/2+pi/n_g2)*n_g2/n_g8)
+    # put it back
+    ctx.translate(-x_g8, -y_g8)
+    spur.Spur(ctx).Gear(x_g8, y_g8, rp_g8, n_g8, pa, " brown")
+    ctx.restore()
+
     </script>
     <canvas id="plotarea" width="3000" height="3000"></canvas>
     </body>
@@ -383,9 +445,6 @@ class Hello(object):
 
         return outstring
 
-    @cherrypy.expose
-    def hello(self, toprint="Hello World!"):
-        return toprint
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
     def twoDgear(self, N=None, M=None, P=None):

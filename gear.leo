@@ -26,9 +26,9 @@
 <v t="2015.20150623092958.1"><vh>index</vh></v>
 <v t="2015.20150623092756.1" a="E"><vh>cda_g2_w17_1</vh>
 <v t="2015.20150623092756.3"><vh>drawspur</vh></v>
-<v t="2015.20150623092756.6"><vh>drawspuraction</vh></v>
 </v>
 <v t="2014fall.20141212095015.1779"><vh>hello</vh></v>
+<v t="2015.20150623092756.6"><vh>drawspuraction</vh></v>
 <v t="2015.20150330144929.1713"><vh>twoDgear</vh></v>
 <v t="2015.20150331094055.1733"><vh>threeDgear</vh></v>
 <v t="2015.20150330144929.1762"><vh>do2Dgear</vh></v>
@@ -2093,7 +2093,7 @@ ctx.restore()
 <t tx="2015.20150623092756.1"></t>
 <t tx="2015.20150623092756.3">@cherrypy.expose
 # N 為齒數, M 為模數, P 為壓力角
-def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,M=10, P=20):
+def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,N6=15,N7=24,M=10, P=20):
     outstring = '''
 &lt;!DOCTYPE html&gt; 
 &lt;html&gt;
@@ -2156,7 +2156,23 @@ def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,M=10, P=20):
         outstring+=''' &lt;option value="'''+str(j)+'''"&gt;'''+str(j)+'''&lt;/option&gt;'''
     outstring+='''
    &lt;/select&gt;&lt;br/&gt;
-
+第7齒數:&lt;br /&gt;
+    &lt;select name="N6"&gt;
+    '''
+    for j in range(15,81):
+        outstring+=''' &lt;option value="'''+str(j)+'''"&gt;'''+str(j)+'''&lt;/option&gt;'''
+    outstring+='''
+   &lt;/select&gt;&lt;br/&gt;
+第8齒數:&lt;br /&gt;
+    &lt;select name="N7"&gt;
+    '''
+    j=24
+    outstring +=''' &lt;option value = '''+str(j)+'''&gt;'''+str(j)+'''&lt;/option&gt;'''
+    
+    for j in range(15,81):
+        outstring+=''' &lt;option value="'''+str(j)+'''"&gt;'''+str(j)+'''&lt;/option&gt;'''
+    outstring+='''
+   &lt;/select&gt;&lt;br/&gt;
 模數  :&lt;input type=text name=M value='''+str(M)+'''&gt;&lt;br /&gt;
 
 壓力角:&lt;input type=text name=P value = '''+str(P)+'''&gt;&lt;br /&gt;
@@ -2177,7 +2193,7 @@ brython();
     return outstring</t>
 <t tx="2015.20150623092756.6">@cherrypy.expose
 # N 為齒數, M 為模數, P 為壓力角
-def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,M=10, P=20):
+def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,N6=15,N7=24,M=10, P=20):
     outstring =''' 
 &lt;!DOCTYPE html&gt; 
 &lt;html&gt;
@@ -2236,6 +2252,11 @@ n_g4 ='''+str(N3)+'''
 n_g5 ='''+str(N4)+'''
 # 第6齒輪齒數
 n_g6 ='''+str(N5)+'''
+# 第7齒輪齒數
+n_g7 ='''+str(N6)+'''
+# 第8齒輪齒數
+n_g8 ='''+str(N7)+'''
+    
     
 # 計算兩齒輪的節圓半徑
 rp_g1 = m*n_g1/2
@@ -2244,6 +2265,8 @@ rp_g3 = m*n_g3/2
 rp_g4 = m*n_g4/2
 rp_g5= m*n_g5/2
 rp_g6= m*n_g6/2
+rp_g7= m*n_g7/2
+rp_g8= m*n_g8/2
 
 # 繪圖第1齒輪的圓心座標
 x_g1 = 400
@@ -2267,6 +2290,14 @@ y_g5 = y_g4
 # 第6齒輪的圓心座標
 x_g6 = x_g5
 y_g6 = y_g5 + rp_g5+rp_g6
+
+# 第7齒輪的圓心座標
+x_g7= x_g6+ rp_g6+rp_g7
+y_g7 = y_g6
+
+# 第8齒輪的圓心座標
+x_g8 = x_g7
+y_g8 = y_g7+ rp_g7+rp_g8
 
 # 將第1齒輪順時鐘轉 90 度
 # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
@@ -2335,7 +2366,8 @@ ctx.translate(x_g5, y_g5)
 # rotate to engage
 
 #-pi/2 +pi/n_g5  +(pi/2 -pi/n_g4+(-pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4)*(n_g4/n_g5)
-ctx.rotate(-pi/2 +pi/n_g5  +(pi/2 -pi/n_g4+(pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4)*(n_g4/n_g5))
+
+ctx.rotate(-pi/2 +pi/n_g5+(pi/2-pi/n_g4-(-pi/2+pi/n_g3)*n_g3/n_g4-(-pi/2+pi/n_g2)*n_g2/n_g4)*(n_g4/n_g5))
 
 # put it back
 ctx.translate(-x_g5, -y_g5)
@@ -2351,6 +2383,33 @@ ctx.rotate(-pi/n_g6+(-pi/2+pi/n_g5)*n_g5/n_g6-(pi/2+pi/n_g4)*n_g4/n_g6-(pi/2+pi/
 # put it back
 ctx.translate(-x_g6, -y_g6)
 spur.Spur(ctx).Gear(x_g6, y_g6, rp_g6, n_g6, pa, "blue")
+ctx.restore()
+
+#第7齒輪
+
+ctx.font = "10px Verdana";
+ctx.fillText("組員:06",x_g7, y_g7);
+
+ctx.save()
+# translate to the origin of second gear
+ctx.translate(x_g7, y_g7)
+p=-pi/n_g6+(-pi/2+pi/n_g5)*n_g5/n_g6-(-pi/2+pi/n_g4)*n_g4/n_g6-(pi/2+pi/n_g3)*n_g3/n_g6-(-pi/2+pi/n_g2)*n_g2/n_g6
+# rotate to engage
+ctx.rotate(-pi/2+pi/n_g7+(pi/2+p)*(n_g6/n_g7))
+# put it back
+ctx.translate(-x_g7, -y_g7)
+spur.Spur(ctx).Gear(x_g7, y_g7, rp_g7, n_g7, pa, "red")
+ctx.restore()
+
+#第8齒輪
+ctx.save()
+# translate to the origin of second gear
+ctx.translate(x_g8, y_g8)
+# rotate to engage
+ctx.rotate(-pi/n_g8+(-pi/2+pi/n_g7)*n_g7/n_g8-(pi/2+pi/n_g6)*n_g6/n_g8-(pi/2+pi/n_g5)*n_g5/n_g8-(pi/2+pi/n_g4)*n_g4/n_g8-(pi/2+pi/n_g3)*n_g3/n_g8-(pi/2+pi/n_g2)*n_g2/n_g8)
+# put it back
+ctx.translate(-x_g8, -y_g8)
+spur.Spur(ctx).Gear(x_g8, y_g8, rp_g8, n_g8, pa, " brown")
 ctx.restore()
 
 &lt;/script&gt;
