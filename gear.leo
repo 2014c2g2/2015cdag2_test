@@ -2093,7 +2093,7 @@ ctx.restore()
 <t tx="2015.20150623092756.1"></t>
 <t tx="2015.20150623092756.3">@cherrypy.expose
 # N 為齒數, M 為模數, P 為壓力角
-def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,M=10, P=20):
+def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,N10=15,N11=24,M=10, P=20):
     outstring = '''
 &lt;!DOCTYPE html&gt; 
 &lt;html&gt;
@@ -2190,6 +2190,23 @@ def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,
         outstring+=''' &lt;option value="'''+str(j)+'''"&gt;'''+str(j)+'''&lt;/option&gt;'''
     outstring+='''
    &lt;/select&gt;&lt;br/&gt;
+    第11齒數:&lt;br /&gt;
+     &lt;select name="N10"&gt;
+    '''
+    for j in range(15,80):
+        outstring+=''' &lt;option value="'''+str(j)+'''"&gt;'''+str(j)+'''&lt;/option&gt;'''
+    outstring+='''
+   &lt;/select&gt;&lt;br/&gt;
+  第12齒數:&lt;br /&gt;
+    &lt;select name="N11"&gt;
+    '''
+    j=24
+    outstring +=''' &lt;option value = '''+str(j)+'''&gt;'''+str(j)+'''&lt;/option&gt;'''
+    
+    for j in range(15,81):
+        outstring+=''' &lt;option value="'''+str(j)+'''"&gt;'''+str(j)+'''&lt;/option&gt;'''
+    outstring+='''
+   &lt;/select&gt;&lt;br/&gt;
 模數  :&lt;input type=text name=M value='''+str(M)+'''&gt;&lt;br /&gt;
 
 壓力角:&lt;input type=text name=P value = '''+str(P)+'''&gt;&lt;br /&gt;
@@ -2210,7 +2227,7 @@ brython();
     return outstring</t>
 <t tx="2015.20150623092756.6">@cherrypy.expose
 # N 為齒數, M 為模數, P 為壓力角
-def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,M=10, P=20):
+def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,N10=15,N11=24,M=10, P=20):
     outstring =''' 
 &lt;!DOCTYPE html&gt; 
 &lt;html&gt;
@@ -2277,6 +2294,10 @@ n_g8 ='''+str(N7)+'''
 n_g9 ='''+str(N8)+'''
 # 第10齒輪齒數
 n_g10 ='''+str(N9)+'''
+# 第11齒輪齒數
+n_g11 ='''+str(N10)+'''
+# 第12齒輪齒數
+n_g12 ='''+str(N11)+'''
 
 # 計算兩齒輪的節圓半徑
 rp_g1 = m*n_g1/2
@@ -2289,6 +2310,8 @@ rp_g7= m*n_g7/2
 rp_g8= m*n_g8/2
 rp_g9= m*n_g9/2
 rp_g10= m*n_g10/2
+rp_g11= m*n_g11/2
+rp_g12= m*n_g12/2
 
 # 繪圖第1齒輪的圓心座標
 x_g1 = 400
@@ -2328,6 +2351,14 @@ y_g9 = y_g8
 # 第10齒輪的圓心座標
 x_g10 = x_g9
 y_g10 = y_g9+ rp_g9+rp_g10
+
+# 第11齒輪的圓心座標
+x_g11 =  x_g10+ rp_g10+rp_g11
+y_g11 = y_g10
+
+# 第12齒輪的圓心座標
+x_g12 =  x_g11
+y_g12 = y_g11+ rp_g11+rp_g12
 
 
 # 將第1齒輪順時鐘轉 90 度
@@ -2424,7 +2455,7 @@ ctx.fillText("組員:06",x_g7, y_g7);
 ctx.save()
 # translate to the origin of second gear
 ctx.translate(x_g7, y_g7)
-p=-pi/n_g6+(-pi/2+pi/n_g5)*n_g5/n_g6-(-pi/2+pi/n_g4)*n_g4/n_g6-(pi/2+pi/n_g3)*n_g3/n_g6-(-pi/2+pi/n_g2)*n_g2/n_g6
+p=-pi/n_g6+(pi/2+pi/n_g5)*n_g5/n_g6-(-pi/2+pi/n_g4)*n_g4/n_g6+(pi/2+pi/n_g3)*n_g3/n_g6-(-pi/2+pi/n_g2)*n_g2/n_g6
 # rotate to engage
 ctx.rotate(-pi/2+pi/n_g7+(pi/2+p)*(n_g6/n_g7))
 # put it back
@@ -2452,7 +2483,7 @@ ctx.fillText("組員:07",x_g9, y_g9);
 ctx.save()
 # translate to the origin of second gear
 ctx.translate(x_g9, y_g9)
-p=-pi/n_g8+(-pi/2+pi/n_g7)*n_g7/n_g8-(pi/2+pi/n_g6)*n_g6/n_g8-(-pi/2+pi/n_g5)*n_g5/n_g8-(-pi/2+pi/n_g4)*n_g4/n_g8-(pi/2+pi/n_g3)*n_g3/n_g8-(pi/2+pi/n_g2)*n_g2/n_g8
+p=-pi/n_g8+(pi/2+pi/n_g7)*n_g7/n_g8-(-pi/2+pi/n_g6)*n_g6/n_g8+(pi/2+pi/n_g5)*n_g5/n_g8-(-pi/2+pi/n_g4)*n_g4/n_g8+(pi/2+pi/n_g3)*n_g3/n_g8-(-pi/2+pi/n_g2)*n_g2/n_g8
 # rotate to engage
 ctx.rotate(-pi/2+pi/n_g9+(pi/2+p)*(n_g8/n_g9))
 # put it back
@@ -2469,6 +2500,34 @@ ctx.rotate(-pi/n_g10+(-pi/2+pi/n_g9)*n_g9/n_g10-(pi/2+pi/n_g8)*n_g8/n_g10-(pi/2+
 # put it back
 ctx.translate(-x_g10, -y_g10)
 spur.Spur(ctx).Gear(x_g10, y_g10, rp_g10, n_g10, pa, "green")
+ctx.restore()
+
+
+#第11齒輪
+ctx.font = "10px Verdana";
+ctx.fillText("組員:40023107",x_g11-10, y_g11);
+ctx.save()
+# translate to the origin of second gear
+ctx.translate(x_g11, y_g11)
+# rotate to engage
+p=-pi/n_g10+(pi/2+pi/n_g9)*n_g9/n_g10-(-pi/2+pi/n_g8)*n_g8/n_g10+(pi/2+pi/n_g7)*n_g7/n_g10-(-pi/2+pi/n_g6)*n_g6/n_g10+(pi/2+pi/n_g5)*n_g5/n_g10-(-pi/2+pi/n_g4)*n_g4/n_g10+(pi/2+pi/n_g3)*n_g3/n_g10-(-pi/2+pi/n_g2)*n_g2/n_g10
+
+ctx.rotate(-pi/2+pi/n_g11+(pi/2+p)*(n_g10/n_g11))
+# put it back
+ctx.translate(-x_g11, -y_g11)
+spur.Spur(ctx).Gear(x_g11, y_g11, rp_g11, n_g11, pa, "black")
+ctx.restore()
+
+#第12齒輪
+ctx.save()
+# translate to the origin of second gear
+ctx.translate(x_g12, y_g12)
+# rotate to engage
+
+ctx.rotate(-pi/n_g12+(-pi/2+pi/n_g11)*n_g11/n_g12-(pi/2+pi/n_g10)*n_g10/n_g12-(pi/2+pi/n_g9)*n_g9/n_g12-(pi/2+pi/n_g8)*n_g8/n_g12-(pi/2+pi/n_g7)*n_g7/n_g12-(pi/2+pi/n_g6)*n_g6/n_g12-(pi/2+pi/n_g5)*n_g5/n_g12-(pi/2+pi/n_g4)*n_g4/n_g12-(pi/2+pi/n_g3)*n_g3/n_g12-(pi/2+pi/n_g2)*n_g2/n_g12)
+# put it back
+ctx.translate(-x_g12, -y_g12)
+spur.Spur(ctx).Gear(x_g12, y_g12, rp_g12, n_g12, pa, "blue")
 ctx.restore()
 
 
