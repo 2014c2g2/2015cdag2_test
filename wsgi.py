@@ -267,6 +267,27 @@ class Hello(object):
 
     第2齒數:'''+str(N1)+'''<output name=N1 for=str(N1)><br />
 
+    第3齒數:'''+str(N2)+'''<output name=N2 for=str(N2)><br />
+
+    第4齒數:'''+str(N3)+'''<output name=N3 for=str(N3)><br />
+
+    第5齒數:'''+str(N4)+'''<output name=N4 for=str(N4)><br />
+
+    第6齒數:'''+str(N5)+'''<output name=N5 for=str(N5)><br />
+
+    第7齒數:'''+str(N6)+'''<output name=N6 for=str(N6)><br />
+
+    第8齒數:'''+str(N7)+'''<output name=N7 for=str(N7)><br />
+
+    第9齒數:'''+str(N8)+'''<output name=N8 for=str(N8)><br />
+
+    第10齒數:'''+str(N9)+'''<output name=N9 for=str(N9)><br />
+
+    第11齒數:'''+str(N10)+'''<output name=N10 for=str(N10)><br />
+
+    第12齒數:'''+str(N11)+'''<output name=N11 for=str(N11)><br />
+
+
 
     模數:'''+str(M)+'''<output name=M for=str(M)><br />
     壓力角:'''+str(P)+'''<output name=P for=str(P)><br />

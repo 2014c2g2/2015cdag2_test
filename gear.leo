@@ -2245,6 +2245,27 @@ def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N
 
 第2齒數:'''+str(N1)+'''&lt;output name=N1 for=str(N1)&gt;&lt;br /&gt;
 
+第3齒數:'''+str(N2)+'''&lt;output name=N2 for=str(N2)&gt;&lt;br /&gt;
+
+第4齒數:'''+str(N3)+'''&lt;output name=N3 for=str(N3)&gt;&lt;br /&gt;
+
+第5齒數:'''+str(N4)+'''&lt;output name=N4 for=str(N4)&gt;&lt;br /&gt;
+
+第6齒數:'''+str(N5)+'''&lt;output name=N5 for=str(N5)&gt;&lt;br /&gt;
+
+第7齒數:'''+str(N6)+'''&lt;output name=N6 for=str(N6)&gt;&lt;br /&gt;
+
+第8齒數:'''+str(N7)+'''&lt;output name=N7 for=str(N7)&gt;&lt;br /&gt;
+
+第9齒數:'''+str(N8)+'''&lt;output name=N8 for=str(N8)&gt;&lt;br /&gt;
+
+第10齒數:'''+str(N9)+'''&lt;output name=N9 for=str(N9)&gt;&lt;br /&gt;
+
+第11齒數:'''+str(N10)+'''&lt;output name=N10 for=str(N10)&gt;&lt;br /&gt;
+
+第12齒數:'''+str(N11)+'''&lt;output name=N11 for=str(N11)&gt;&lt;br /&gt;
+
+
 
 模數:'''+str(M)+'''&lt;output name=M for=str(M)&gt;&lt;br /&gt;
 壓力角:'''+str(P)+'''&lt;output name=P for=str(P)&gt;&lt;br /&gt;
