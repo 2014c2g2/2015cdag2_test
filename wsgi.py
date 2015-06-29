@@ -115,7 +115,7 @@ class Hello(object):
 
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
-    def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,N10=15,N11=24,M=10, P=20):
+    def drawspur(self, N=15, N1=24,N2=15, N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,N10=15,N11=24,N12=15,N13=24,M=10, P=20):
         outstring = '''
     <!DOCTYPE html> 
     <html>
@@ -229,6 +229,23 @@ class Hello(object):
             outstring+=''' <option value="'''+str(j)+'''">'''+str(j)+'''</option>'''
         outstring+='''
        </select><br/>
+          第13齒數:<br />
+         <select name="N12">
+        '''
+        for j in range(15,80):
+            outstring+=''' <option value="'''+str(j)+'''">'''+str(j)+'''</option>'''
+        outstring+='''
+       </select><br/>
+      第14齒數:<br />
+        <select name="N13">
+        '''
+        j=24
+        outstring +=''' <option value = '''+str(j)+'''>'''+str(j)+'''</option>'''
+        
+        for j in range(15,81):
+            outstring+=''' <option value="'''+str(j)+'''">'''+str(j)+'''</option>'''
+        outstring+='''
+       </select><br/>
     模數  :<input type=text name=M value='''+str(M)+'''><br />
 
     壓力角:<input type=text name=P value = '''+str(P)+'''><br />
@@ -249,7 +266,7 @@ class Hello(object):
         return outstring
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
-    def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,N10=15,N11=24,M=10, P=20):
+    def drawspuraction(self, N=15, N1=24,N2=15,N3=24,N4=15,N5=24,N6=15,N7=24,N8=15,N9=24,N10=15,N11=24,N12=15,N13=24,M=10, P=20):
         outstring =''' 
     <!DOCTYPE html> 
     <html>
@@ -286,6 +303,10 @@ class Hello(object):
     第11齒數:'''+str(N10)+'''<output name=N10 for=str(N10)><br />
 
     第12齒數:'''+str(N11)+'''<output name=N11 for=str(N11)><br />
+
+    第13齒數:'''+str(N12)+'''<output name=N12 for=str(N12)><br />
+
+    第14齒數:'''+str(N13)+'''<output name=N13 for=str(N13)><br />
 
 
 
@@ -341,6 +362,10 @@ class Hello(object):
     n_g11 ='''+str(N10)+'''
     # 第12齒輪齒數
     n_g12 ='''+str(N11)+'''
+    # 第13齒輪齒數
+    n_g13 ='''+str(N12)+'''
+    # 第14齒輪齒數
+    n_g14 ='''+str(N13)+'''
 
     # 計算兩齒輪的節圓半徑
     rp_g1 = m*n_g1/2
@@ -355,6 +380,8 @@ class Hello(object):
     rp_g10= m*n_g10/2
     rp_g11= m*n_g11/2
     rp_g12= m*n_g12/2
+    rp_g13= m*n_g13/2
+    rp_g14= m*n_g14/2
 
     # 繪圖第1齒輪的圓心座標
     x_g1 = 400
@@ -402,6 +429,16 @@ class Hello(object):
     # 第12齒輪的圓心座標
     x_g12 =  x_g11
     y_g12 = y_g11+ rp_g11+rp_g12
+
+    # 第13齒輪的圓心座標
+    x_g13 = x_g12+ rp_g12+rp_g13
+    y_g13 = y_g12
+
+    # 第14齒輪的圓心座標
+    x_g14 =  x_g13
+    y_g14 = y_g13+ rp_g13+rp_g14
+
+
 
 
     # 將第1齒輪順時鐘轉 90 度
@@ -571,6 +608,33 @@ class Hello(object):
     # put it back
     ctx.translate(-x_g12, -y_g12)
     spur.Spur(ctx).Gear(x_g12, y_g12, rp_g12, n_g12, pa, "blue")
+    ctx.restore()
+
+    #第13齒輪
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:04",x_g13-10, y_g13);
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g13, y_g13)
+    # rotate to engage
+    p=-pi/n_g12+(pi/2+pi/n_g11)*n_g11/n_g12-(-pi/2+pi/n_g10)*n_g10/n_g12+(pi/2+pi/n_g9)*n_g9/n_g12-(-pi/2+pi/n_g8)*n_g8/n_g12+(pi/2+pi/n_g7)*n_g7/n_g12-(-pi/2+pi/n_g6)*n_g6/n_g12+(pi/2+pi/n_g5)*n_g5/n_g12-(-pi/2+pi/n_g4)*n_g4/n_g12+(pi/2+pi/n_g3)*n_g3/n_g12-(-pi/2+pi/n_g2)*n_g2/n_g12
+
+    ctx.rotate(-pi/2+pi/n_g13+(pi/2+p)*(n_g12/n_g13))
+    # put it back
+    ctx.translate(-x_g13, -y_g13)
+    spur.Spur(ctx).Gear(x_g13, y_g13, rp_g13, n_g13, pa, "green")
+    ctx.restore()
+
+    #第14齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g14, y_g14)
+    # rotate to engage
+
+    ctx.rotate(-pi/n_g14+(-pi/2+pi/n_g13)*n_g13/n_g14-(pi/2+pi/n_g12)*n_g12/n_g14-(pi/2+pi/n_g11)*n_g11/n_g14-(pi/2+pi/n_g10)*n_g10/n_g14-(pi/2+pi/n_g9)*n_g9/n_g14-(pi/2+pi/n_g8)*n_g8/n_g14-(pi/2+pi/n_g7)*n_g7/n_g14-(pi/2+pi/n_g6)*n_g6/n_g14-(pi/2+pi/n_g5)*n_g5/n_g14-(pi/2+pi/n_g4)*n_g4/n_g14-(pi/2+pi/n_g3)*n_g3/n_g14-(pi/2+pi/n_g2)*n_g2/n_g14)
+    # put it back
+    ctx.translate(-x_g14, -y_g14)
+    spur.Spur(ctx).Gear(x_g14, y_g14, rp_g14, n_g14, pa, "orange")
     ctx.restore()
 
 
